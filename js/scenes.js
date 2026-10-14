@@ -68,14 +68,14 @@ class TitleScene {
     const dh = 280, ih = 262, kh = 262;
     const dX = G.W * 0.115, iX = G.W * 0.285, bX = G.W * 0.9;
     shadow(dX, 120); shadow(iX, 80); shadow(bX, 105);
-    drawSprite(c, IMG.arch_point, dX, gy, dh + Math.sin(this.t * 2) * 3);
+    drawSprite(c, IMG.h_hen, dX, gy, dh + Math.sin(this.t * 2) * 3);
     for (let k = 0; k < 5; k++) drawBalloon(c, G.W * (0.64 + k * 0.035), G.H * (0.5 - (k % 2) * 0.06) + Math.sin(this.t * 2 + k) * 10, TOYC[k], 0.9);
     const hop = Math.abs(Math.sin(this.t * 2.6)) * 6;
-    drawSprite(c, IMG.iskra_hero, iX, gy - hop, ih);
-    drawSprite(c, IMG.bublik, bX, gy, kh, true, 1, 1 + Math.sin(this.t * 2.4) * 0.012);
+    drawSprite(c, IMG.h_chick, iX, gy - hop, ih);
+    drawSprite(c, IMG.h_puppy, bX, gy, kh, true, 1, 1 + Math.sin(this.t * 2.4) * 0.012);
     // Щёлк кружит в правом верхнем углу, справа от логотипа
     const sx = (lx + lw + G.W) / 2 + Math.sin(this.t * 0.9) * Math.max(10, (G.W - lx - lw) / 2 - 130), sy = 200 + Math.sin(this.t * 1.8) * 26;
-    c.save(); c.translate(sx, sy); c.rotate(Math.sin(this.t * 0.9 + 1.5) * 0.08); const fw = 230; c.drawImage(IMG.shchelk_front, -fw / 2, -fw * IMG.shchelk_front.height / IMG.shchelk_front.width / 2, fw, fw * IMG.shchelk_front.height / IMG.shchelk_front.width); c.restore();
+    drawVillainArt(c, sx, sy + 30, 0.75, this.t);
     if (IMG.logo) {
       glow(c, G.W / 2, ly + lh * 0.55, lw * 0.5, 'rgba(255,230,150,0.45)', 0.6);
       // ось весов на логотипе поблёскивает
@@ -258,7 +258,7 @@ class MapScene {
       pos = { x: q.x, y: q.y }; dir = k > 0 && k < 1 ? q.dir : 1;
       if (k > 0 && k < 1) { pos.y -= Math.abs(Math.sin(this.t * 12)) * 8; }
     } else { const q0 = this.alongPath(ix[curI] - 1, ix[curI], 0.55); pos = { x: q0.x, y: q0.y - Math.abs(Math.sin(this.t * 3)) * 8 }; }
-    drawSprite(c, IMG.iskra_idle, pos.x, pos.y + 6, 124, dir < 0);
+    drawSprite(c, IMG.h_chick, pos.x, pos.y + 6, 124, dir < 0);
     drawParticles(c, 'world');
     drawLogo(c, 'Тропинка по ферме', G.W / 2, 60, 48, G.rt, 0, false);
     roundIconButton(c, 18 + G.sl, 18, 66, 'home'); addButton(18 + G.sl, 18, 66, 66, () => goScene(() => new TitleScene()), 'home');
@@ -291,13 +291,13 @@ class FinaleScene {
     c.fillStyle = 'rgba(30,20,40,0.3)';
     for (const [x, w] of [[G.W * 0.17, 110], [G.W * 0.43, 90], [G.W * 0.66, 100]]) { c.beginPath(); c.ellipse(x, gy, w, 14, 0, 0, 7); c.fill(); }
     // Архимед радуется: два прыжка «ура» (руки вверх) → приземлился и стоит со свитком → снова прыжки
-    drawSprite(c, IMG.arch_cheer, G.W * 0.17, gy - hop(0), 300);
+    drawSprite(c, IMG.h_hen, G.W * 0.17, gy - hop(0), 300);
     { const bx = G.W * 0.08 + Math.sin(this.t * 1.3) * 10, by = G.H * 0.44 + Math.sin(this.t * 3) * 10; for (let k = 0; k < 3; k++) drawBalloon(c, bx + k * 50, by + (k % 2) * 30, TOYC[k + 2], 0.9); }
     glow(c, G.W * 0.43, gy - 150, 220, 'rgba(255,220,120,0.35)', 0.8);
-    drawSprite(c, IMG.iskra_hero, G.W * 0.43, gy - hop(1), 330);
-    drawSprite(c, IMG.bublik, G.W * 0.66, gy - hop(2), 290, true);
+    drawSprite(c, IMG.h_chick, G.W * 0.43, gy - hop(1), 330);
+    drawSprite(c, IMG.h_puppy, G.W * 0.66, gy - hop(2), 290, true);
     const a = this.t * 0.8; const sx = G.W * 0.47 + Math.cos(a) * G.W * 0.2, sy = 265 + Math.sin(a * 2) * 40;
-    c.save(); c.translate(sx, sy); c.scale(Math.cos(a) < 0 ? 1 : 1, 1); const fw = 200; c.drawImage(IMG.shchelk_front, -fw / 2, -fw * 0.34, fw, fw * IMG.shchelk_front.height / IMG.shchelk_front.width);
+    c.save(); c.translate(sx, sy); c.scale(Math.cos(a) < 0 ? 1 : 1, 1); const fw = 200; drawVillainArt(c, 0, 60, 0.6, G.t);
     // медаль Щёлка
     c.strokeStyle = '#c92a2a'; c.lineWidth = 6; c.beginPath(); c.moveTo(-16, fw * 0.2); c.lineTo(0, fw * 0.32); c.lineTo(16, fw * 0.2); c.stroke();
     glow(c, 0, fw * 0.38, 40, 'rgba(255,214,90,0.9)', 0.9); drawItem(c, 'coin', 0, fw * 0.46, 34); c.restore();
@@ -353,7 +353,7 @@ function drawRotate() {
   cloud(ctx, -110, -280, 0.6); cloud(ctx, 120, -230, 0.5);
   woodPanel(ctx, -170, -190, 340, 420, 30, 3);
   ctx.fillStyle = 'rgba(255,250,235,0.95)'; rr(ctx, -150, -170, 300, 380, 22); ctx.fill();
-  drawSprite(ctx, IMG.iskra_hero, -70, 40, 190);
+  drawSprite(ctx, IMG.h_chick, -70, 40, 190);
   // телефон, поворачивается
   const a = (Math.sin(G.rt * 2) * 0.5 + 0.5) * Math.PI / 2;
   ctx.save(); ctx.translate(70, -40); ctx.rotate(-a);
@@ -506,7 +506,7 @@ window.__game = {
     }
     if (S.ovenX) { add('печка', S.ovenX, tx(10), { feet: 100 }); for (const sx of [tx(16) + 30, tx(16) + 76, tx(54) + 30, tx(81) + 20, tx(101) + 40]) add('мешок муки', sx, tx(10), { feet: 26 }); }
     // Искра стоит на земле
-    if (S.p.onGround && !S.p.ride) add('Искра', S.p.x, S.p.y + 1 - pad(IMG.iskra_idle, ISKRA_H), { feet: 10 });
+    if (S.p.onGround && !S.p.ride) add('Искра', S.p.x, S.p.y + 1 - pad(IMG.h_chick, ISKRA_H), { feet: 10 });
     return { level: S.n + 1, items: out, fails: out.filter(o => !o.ok) };
   },
   teleport(x, y) { const S = G.scene; if (!S || !S.isPlay) return; S.p.x = x; S.p.y = y; S.p.vx = 0; S.p.vy = 0; S.p.ride = null; S.p.carry = 0; },

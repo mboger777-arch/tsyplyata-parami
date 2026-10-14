@@ -164,3 +164,5 @@ function VL_ALL() {
   return out.filter(o => { const key = o.who + '|' + o.t; if (seen.has(key)) return false; seen.add(key); return true; });
 }
 if (typeof module !== 'undefined') module.exports = { VL_ALL, VLDEF, RU: NUMW, TASKS, CHOICES, BONUS, NUMW };
+// ===== мини-игры: новые реплики тоже идут в озвучку =====
+if (typeof module !== 'undefined') { const _M = require('./mini_cfg.js').MC; const _old = module.exports.VL_ALL; module.exports.VL_ALL = () => _old().concat(_M.ALL().map(o => ({ who: o.who, k: 'm_' + o.k, a: o.a, t: o.t, s: o.s }))); }
