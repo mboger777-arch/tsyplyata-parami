@@ -86,7 +86,7 @@ class TitleScene {
       drawLogo(c, 'Цыплята парами', G.W / 2, 150, Math.min(100, G.W / 13), this.t, 0.5);
     }
     // цыплята гуляют парами (по два, пары разнесены) — без чисел на экране
-    if (IMG.it_chick) for (let pr = 0; pr < 2; pr++) for (let k = 0; k < 2; k++) { const x = G.W * (0.70 + pr * 0.075) + k * 34 + ((this.t * 18) % 40) - 20, y = gy - 4 - Math.abs(Math.sin(this.t * 6 + k + pr * 2)) * 6; drawItem(c, 'chick', x, y, 44); }
+    if (IMG.it_chick) for (let pr = 0; pr < 2; pr++) for (let k = 0; k < 2; k++) { const x = G.W * (pr ? 0.735 : 0.375) + k * 34 + ((this.t * 18) % 40) - 20, y = gy - 4 - Math.abs(Math.sin(this.t * 6 + k + pr * 2)) * 6; drawItem(c, 'chick', x, y, 44); }
     const bw = 330, bh = 104, bx = G.W * 0.575 - bw / 2, by = G.H - 150;
     if (!/cover/.test(location.search)) goldButton(c, bx, by, bw, bh, 'Играть', 60, Math.sin(this.t * 4) * 0.035);
     addButton(bx, by, bw, bh, () => this.onEnter(), 'play');
@@ -568,8 +568,8 @@ function titleFX(c, t) {
   }
   for (const m of _MOTES) {
     const y = ((m.y - t * m.v) % 1 + 1) % 1, x = m.x + Math.sin(t * 0.6 + m.ph) * 0.015, tw = 0.5 + 0.5 * Math.sin(t * 2.3 + m.ph);
-    const px = x * W, py = y * H, r = m.s * (1.6 + tw);
-    const g = c.createRadialGradient(px, py, 0, px, py, r * 4); g.addColorStop(0, `rgba(255,245,200,${0.55 * tw + 0.2})`); g.addColorStop(1, 'rgba(255,220,140,0)');
+    const px = x * W, py = y * H, r = m.s * (0.8 + 0.6 * tw);
+    const g = c.createRadialGradient(px, py, 0, px, py, r * 4); g.addColorStop(0, `rgba(255,245,200,${0.25 * tw + 0.08})`); g.addColorStop(1, 'rgba(255,220,140,0)');
     c.fillStyle = g; c.beginPath(); c.arc(px, py, r * 4, 0, 7); c.fill();
   }
   c.restore();
